@@ -54,24 +54,18 @@ public class TDLookUpSEMHandler extends RESTHandler {
 			}
 			
 		} else if (parameters.containsKey("rdf") && !parameters.get("rdf").isEmpty()) { // RDF type/value type query
-			
 			query = parameters.get("rdf");
+			String tdDesc = null;
 			try {
-				tds = ThingDescriptionUtils.listRDFTypeValues(query);
+				
+				tdDesc = ThingDescriptionUtils.listRDFTypeValues(query);
 			} catch (Exception e) {
+				e.printStackTrace();
 				throw new BadRequestException();
 			}
 			
-			// Retrieve type values
-			for (int i = 0; i < tds.size(); i++) {
-				resource.content += "\"unit\": " + tds.get(i);
-				if (i < tds.size() - 1) {
-					resource.content += ",\n";
-				}
-			}
-			
-			resource.content += "}";
-			return resource;
+				resource.content += "\"Interaction\": " + tdDesc;
+		return resource;
 			
 		} else {
 			// Return all TDs

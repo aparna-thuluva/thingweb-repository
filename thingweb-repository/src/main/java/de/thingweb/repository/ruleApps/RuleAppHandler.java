@@ -1,4 +1,4 @@
-package de.thingweb.repository;
+package de.thingweb.repository.ruleApps;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -16,22 +16,23 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.vocabulary.DCTerms;
-import org.apache.jena.vocabulary.DC;
+import org.apache.jena.vocabulary.DC_11;
 import org.apache.jena.vocabulary.RDFS;
 
+import de.thingweb.repository.Repository;
+import de.thingweb.repository.ThingDescriptionUtils;
 import de.thingweb.repository.rest.BadRequestException;
-import de.thingweb.repository.rest.NotFoundException;
 import de.thingweb.repository.rest.RESTException;
 import de.thingweb.repository.rest.RESTHandler;
 import de.thingweb.repository.rest.RESTResource;
 import de.thingweb.repository.rest.RESTServerInstance;
 
-public class ThingDescriptionHandler extends RESTHandler {
+public class RuleAppHandler extends RESTHandler {
 
 	// for Resource Directory
 	public static final String LIFE_TIME = "lt";
 	
-	public ThingDescriptionHandler(String id, List<RESTServerInstance> instances) {
+	public RuleAppHandler(String id, List<RESTServerInstance> instances) {
 		super(id, instances);
 	}
 	
@@ -43,7 +44,7 @@ public class ThingDescriptionHandler extends RESTHandler {
 		dataset.begin(ReadWrite.READ);
 		
 		try {
-			String q = "SELECT ?str WHERE { <" + uri + "> <" + DC.source + "> ?str }";
+			String q = "SELECT ?str WHERE { <" + uri + "> <" + DC_11.source + "> ?str }";
 			QueryExecution qexec = QueryExecutionFactory.create(q, dataset);
 			ResultSet result = qexec.execSelect();
 			
@@ -105,7 +106,7 @@ public class ThingDescriptionHandler extends RESTHandler {
 				lifetime = new ThingDescriptionUtils().getCurrentDateTime(Integer.parseInt(lt));
 				
 				// Remove properties and add new content
-				tdb.getResource(uri.toString()).removeProperties().addLiteral(DC.source, data);
+				tdb.getResource(uri.toString()).removeProperties().addLiteral(DC_11.source, data);
 				
 				// Store properties. Update modified date and lifetime (if given)
 				tdb.getResource(uri.toString()).addProperty(DCTerms.created, created);
@@ -122,10 +123,10 @@ public class ThingDescriptionHandler extends RESTHandler {
 			}
 			
 			// Update priority queue
-			ThingDescription t = new ThingDescription(uri.toString(), lifetime);
-			Repository.get().tdQueue.remove(t);
-			Repository.get().tdQueue.add(t);
-			Repository.get().setTimer();
+//			ThingDescription t = new ThingDescription(uri.toString(), lifetime);
+//			Repository.get().tdQueue.remove(t);
+//			Repository.get().tdQueue.add(t);
+//			Repository.get().setTimer();
 			
 			dataset.commit();
 			
@@ -152,9 +153,9 @@ public class ThingDescriptionHandler extends RESTHandler {
 			dataset.commit();
 			
 			// Remove from priority queue
-			ThingDescription td = new ThingDescription(uri.toString());
-			Repository.get().tdQueue.remove(td);
-			Repository.get().setTimer();
+//			ThingDescription td = new ThingDescription(uri.toString());
+//			Repository.get().tdQueue.remove(td);
+//			Repository.get().setTimer();
 						
 		} catch (Exception e) {
 			// TODO distinguish between client and server errors

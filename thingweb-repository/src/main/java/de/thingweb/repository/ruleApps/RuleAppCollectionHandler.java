@@ -1,4 +1,4 @@
-package de.thingweb.repository;
+package de.thingweb.repository.ruleApps;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -18,6 +18,8 @@ import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.DC_11;
 import org.apache.jena.vocabulary.RDFS;
 
+import de.thingweb.repository.ThingDescriptionUtils;
+import de.thingweb.repository.Repository;
 import de.thingweb.repository.rest.BadRequestException;
 import de.thingweb.repository.rest.NotFoundException;
 import de.thingweb.repository.rest.RESTException;
@@ -25,14 +27,14 @@ import de.thingweb.repository.rest.RESTHandler;
 import de.thingweb.repository.rest.RESTResource;
 import de.thingweb.repository.rest.RESTServerInstance;
 
-public class ThingDescriptionCollectionHandler extends RESTHandler {
+public class RuleAppCollectionHandler extends RESTHandler {
 
 	// for Resource Directory
 	public static final String LIFE_TIME = "lt";
 	public static final String END_POINT = "ep";
 	
-	public ThingDescriptionCollectionHandler(List<RESTServerInstance> instances) {
-		super("td", instances);
+	public RuleAppCollectionHandler(List<RESTServerInstance> instances) {
+		super("ruleApp", instances);
 	}
 	
 	@Override
@@ -42,7 +44,7 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 		resource.contentType = "application/ld+json";
 		resource.content = "{";
 		
-		List<String> tds = new ArrayList<String>();
+		List<String> ruleApps = new ArrayList<String>();
 		String query;
 		
 		// Normal SPARQL query
@@ -50,7 +52,7 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 			
 			query = parameters.get("query");
 			try {
-				tds = ThingDescriptionUtils.listThingDescriptions(query);
+				ruleApps = ThingDescriptionUtils.listRuleApps(query);
 			} catch (Exception e) {
 				throw new BadRequestException();
 			}
@@ -59,7 +61,7 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 			
 			query = parameters.get("text");
 			try {
-				tds = ThingDescriptionUtils.listThingDescriptionsFromTextSearch(query);
+				ruleApps = ThingDescriptionUtils.listThingDescriptionsFromTextSearch(query);
 			} catch (Exception e) {
 				throw new BadRequestException();
 			}
@@ -67,40 +69,38 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 		} else if (parameters.containsKey("rdf") && !parameters.get("rdf").isEmpty()) { // RDF type/value type query
 			
 			query = parameters.get("rdf");
-			Model tdDesc = null;
+			String tdDesc = null;
 			try {
 				
-				resource.content += "\"Interaction\": " + ThingDescriptionUtils.listRDFTypeValues(query);
-				System.out.println(resource.content);
+				tdDesc = ThingDescriptionUtils.listRDFTypeValues(query);
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new BadRequestException();
 			}
 			
-				
-
-			return resource;
+				resource.content += "\"Interaction\": " + tdDesc;
+		return resource;
 			
 		} else {
 			// Return all TDs
 			try {
-				tds = ThingDescriptionUtils.listThingDescriptions("?s ?p ?o");
+				ruleApps = ThingDescriptionUtils.listRuleApps("?s ?p ?o");
 			} catch (Exception e) {
 				throw new BadRequestException();
 			}
 		}
 		
 		// Retrieve Thing Description(s)
-		for (int i = 0; i < tds.size(); i++) {
-			URI td = URI.create(tds.get(i));
+		for (int i = 0; i < ruleApps.size(); i++) {
+			URI td = URI.create(ruleApps.get(i));
 			
 			try {
-				ThingDescriptionHandler h = new ThingDescriptionHandler(td.toString(), instances);
+				RuleAppHandler h = new RuleAppHandler(td.toString(), instances);
 				RESTResource res = h.get(td, new HashMap<String, String>());
 				// TODO check TD's content type
 				
 				resource.content += "\"" + td.getPath() + "\": " + res.content;
-				if (i < tds.size() - 1) {
+				if (i < ruleApps.size() - 1) {
 					resource.content += ",";
 				}
 				
@@ -120,7 +120,6 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 		resource.content += "}";
 		return resource;
 	}
-	
 
 	@Override
 	public RESTResource post(URI uri, Map<String, String> parameters, InputStream payload) throws RESTException {
@@ -172,16 +171,16 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 			tdb.getResource(resourceUri.toString()).addProperty(DCTerms.modified, currentDate);
 			tdb.getResource(resourceUri.toString()).addProperty(DCTerms.dateAccepted, lifetimeDate);
 	  
-			addToAll("/td/" + id, new ThingDescriptionHandler(id, instances));
+			addToAll("/ruleApp/" + id, new RuleAppHandler(id, instances));
 			dataset.commit();
 			
 			// Add to priority queue
-			ThingDescription td = new ThingDescription(resourceUri.toString(), lifetimeDate);
-			Repository.get().tdQueue.add(td);
-			Repository.get().setTimer();
-			
+//			ThingDescription td = new ThingDescription(resourceUri.toString(), lifetimeDate);
+//			Repository.get().tdQueue.add(td);
+//			Repository.get().setTimer();
+//			
 			// TODO remove useless return
-			RESTResource resource = new RESTResource("/td/" + id, new ThingDescriptionHandler(id, instances));
+			RESTResource resource = new RESTResource("/ruleApp/" + id, new RuleAppHandler(id, instances));
 			return resource;
 
 		} catch (IOException e) {

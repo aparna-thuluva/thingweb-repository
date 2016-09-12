@@ -30,6 +30,8 @@ import de.thingweb.repository.http.HTTPServer;
 import de.thingweb.repository.rest.RESTException;
 import de.thingweb.repository.rest.RESTHandler;
 import de.thingweb.repository.rest.RESTServerInstance;
+import de.thingweb.repository.ruleApps.RuleAppCollectionHandler;
+import de.thingweb.repository.ruleApps.RuleAppHandler;
 
 public class Repository {
   
@@ -86,7 +88,16 @@ public class Repository {
 
         return tds;
     }
-    
+
+    private static List<String> listRuleApps() {
+        List<String> ruleApps = new ArrayList<>();
+
+        for (String uri : ThingDescriptionUtils.listRuleApps("?s ?p ?o")) {
+        	ruleApps.add(uri.substring(uri.lastIndexOf("/") + 1));
+        }
+
+        return ruleApps;
+    }
     private void loadTDQueue() {
     	
     	ThingDescription td;
@@ -183,16 +194,20 @@ public class Repository {
             i.add("/td-lookup/ep", new TDLookUpEPHandler(servers));
             i.add("/td-lookup/sem", new TDLookUpSEMHandler(servers));
             i.add("/td", new ThingDescriptionCollectionHandler(servers));
+            i.add("/ruleApp", new RuleAppCollectionHandler(servers));
             for (String td : listThingDescriptions()) {
                 i.add("/td/" + td, new ThingDescriptionHandler(td, servers));
             }
+            for (String ruleApp : listRuleApps()) {
+                i.add("/ruleApp/" + ruleApp, new RuleAppHandler(ruleApp, servers));
+            }            
       
             i.start();
         }
         
         // Load ontology if it is not already there
-        String fileName = "./samples/qu-rec20.ttl";
-        ThingDescriptionUtils.loadOntology(fileName);
+        //String fileName = "./samples/qu-rec20.ttl";
+        //ThingDescriptionUtils.loadOntology(fileName);
     
         for (RESTServerInstance i : servers) {
             i.join();

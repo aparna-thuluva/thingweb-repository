@@ -53,6 +53,7 @@ public class CoAPRESTResource extends CoapResource {
 		}
 	}
 	
+	@Override
 	public void handlePOST(CoapExchange exchange) {
 		try {
 			RESTResource resource = handler.post(uri(), params(exchange), payload(exchange));
