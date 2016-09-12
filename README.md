@@ -199,7 +199,14 @@ Example:
 ```sh
 coap://localhost:5683/td-lookup/sem?rdf=lightBrightness
 ```
-
+or
+```sh
+coap://localhost:5683/td?rdf=<td-interaction-pattern-name>
+```
+Example:
+```sh
+coap://localhost:5683/td?rdf=lightBrightness
+```
 ### Interacting with a Thingweb-Repository Server for ruleApps
 
 ###### Creates (adds) a ruleApp to a collection `/ruleApp`.
