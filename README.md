@@ -10,12 +10,18 @@ Thingweb-Repository features an API to create, read, update and delete (CRUD) a 
   - CRUD operations are supported either over HTTP or CoAP;
   - Generating a servient based on a discovered Thing. 
 
+  - Searching for a RuleApp based on its name or events;
+  - Creating a new RuleApp or updating an existing one;
+  - Deleting a RuleApp
+  - CRUD operations are supported either over HTTP or CoAP;  
+
 ## Contents
 1. [Building](#building)
 2. [Running a Thingweb-Repository Server](#Running-a-Thingweb-Repository-Server)
 3. [Interacting with a Thingweb-Repository Server](#Interacting-with-a-Thingweb-Repository-Server)
-4. [Swagger Specification of Thingweb-Repository API](#Swagger-Specification-of-Thingweb-Repository-API)
-5. [ToDos](#ToDos)
+4. [Interacting with a Thingweb-Repository Server for RuleApps](#Interacting-with-a-Thingweb-Repository-Server for RuleApps)
+5. [Swagger Specification of Thingweb-Repository API](#Swagger-Specification-of-Thingweb-Repository-API)
+6. [ToDos](#ToDos)
 
 ### Building
 
@@ -32,9 +38,17 @@ $ java -jar thingweb-repository.jar <thingweb_repository_path>
 ```sh
 http://<thingweb_repository_ip>:8080/td
 ```
+for Thing Descriptions or
+```sh
+http://<thingweb_repository_ip>:8080/ruleApps
+```
+for ruleApps
 or over CoAP from:
 
     coap://<thingweb_repository_ip>:5683/td
+    for Thing Descriptions or
+    coap://<thingweb_repository_ip>:5683/ruleApps
+    for ruleApps
 
 ### Interacting with a Thingweb-Repository Server
 
@@ -177,11 +191,113 @@ coap://localhost:8080/td-lookup/sem?query=?X ?Y ?Z .
 coap://localhost:8080/td-lookup/sem?text="word1 AND word2"
 ```
 
-- Lookup by RDF property:
+- Lookup by a TD property/Event or Action:
 ```sh
-coap://localhost:8080/td-lookup/sem?rdf=http://example.org/lightBrightness
+coap://localhost:5683/td-lookup/sem?rdf=<td-interaction-pattern-name>
+```
+Example:
+```sh
+coap://localhost:5683/td-lookup/sem?rdf=lightBrightness
 ```
 
+### Interacting with a Thingweb-Repository Server for ruleApps
+
+###### Creates (adds) a ruleApp to a collection `/ruleApp`.
+
+```sh
+Method: POST
+URI Template: /ruleApp 
+Content-Type: application/ld+json
+Payload: content of a ruleApp.jsonld file
+Success: 201 Created
+Failure: 400 Bad Request
+Failure: 500 Internal Server Error
+```
+
+If the response code is `201 Created`, the URI path of the created sub-resource is defined in the header field `Location` (for HTTP) or `Location-Path` (for CoAP). The path is relative to the root resource and follows the pattern `/ruleApp/{id}`, where `id` is an ID assigned by the repository for the uploaded ruleApp.
+
+###### Returns a list of ruleApps based on a SPARQL query pattern (e.g., a client queries the repository for a ruleApp with a specific Thing URI).
+
+```sh
+Method: GET
+URI Template: /ruleApp
+Request Parameters:
+  query := SPARQL query encoded as URI.
+  text := Boolean text search query.
+Content-Type: application/ld+json
+Success: 200 OK
+Failure: 400 Bad Request
+Failure: 500 Internal Server Error
+```
+
+Examples:
+
+- SPARQL query pattern to return a ruleApp with `coap://192.168.1.104/FanOnRuleApp` associated as its Id: 
+```sh
+coap://localhost:5683/td?query=?Z <http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#ruleInstId> "coap://192.168.1.104/FanOnRuleApp"^^xsd:anyURI .
+```
+HTTP request with the SPARQL query encoded as URI:
+```sh
+http://localhost:8080/td?query=%3FZ%20%3Chttp%3A%2F%2Fwww.semanticweb.org%2Fz003j0hn%2Fontologies%2F2016%2F6%2FAppvocabulary%2FAppvocabulary%23ruleInstId%3E%20%22coap%3A%2F%2F192.168.1.104%2FFanOnRuleApp%22%5E%5Exsd%3AanyURI%20.
+```
+
+- SPARQL query pattern to return all ruleApps (not recommended if their is a large amount of ruleApps in the repository)
+```sh
+?X ?Y ?Z .
+```
+The response is a JSON object (_but no valid JSON-LD document_). This JSON object should have the following form:
+```sh
+{
+  "/ruleApp/{id}": {... ruleApp ...},
+  "/ruleApp/{id}": {... ruleApp ...},
+  ...
+}
+```
+
+###### Returns a ruleApp based on its `{id}` (e.g., a client queries the repository for a specific ruleApp).
+
+```sh
+Method: GET
+URI Template: /ruleApp/{id}
+URI Template Parameter:   
+  {id} := ID of a ruleApp to fetch.
+Content-Type: application/ld+json
+Success: 200 OK
+Failure: 404 Not Found
+Failure: 400 Bad Request
+Failure: 500 Internal Server Error
+```
+
+Example:
+```sh
+http://localhost:8080/td/0d134768
+```
+
+
+###### Updates an existing TD.
+```sh
+Method: PUT
+URI Template: /ruleApp/{id}
+URI Template Parameter:   
+  {id} := ID of a ruleApp to be updated.
+Payload: content of a ruleApp.jsonld file
+Content-Type: application/ld+json
+Success: 200 OK
+Failure: 400 Bad Request
+Failure: 500 Internal Server Error
+```
+
+###### Deletes an existing ruleApp.
+```sh
+Method: DELETE
+URI Template: /ruleApp/{id}
+URI Template Parameter:   
+  {id} := ID of a ruleApp to be deleted
+Content-Type: application/ld+json
+Success: 200 OK
+Failure: 400 Bad Request
+Failure: 500 Internal Server Error
+```
 ## Swagger Specification of Thingweb-Repository API
 
 ## TODOs
