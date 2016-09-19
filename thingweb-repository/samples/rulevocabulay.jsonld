@@ -1,0 +1,445 @@
+{
+  "@context" : {
+    "customFunction" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#customFunction"
+    },
+    "ArgumentList" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#ArgumentList",
+	  "@container": "@set"
+    },
+    "AssignmentOperator" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#AssignmentOperator"
+    },
+    "versionInfo" : {
+      "@id" : "http://www.w3.org/2002/07/owl#versionInfo"
+    },
+    "created" : {
+      "@id" : "http://www.w3c.org/wot/td#created"
+    },
+    "WhereConditionOperator" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#WhereConditionOperator"
+    },
+    "min" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#min"
+    },
+    "hasWhereClause" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasWhereClause",
+      "@type" : "@id"
+    },
+    "protocol" : {
+      "@id" : "http://www.w3c.org/wot/td#protocol",
+      "@type" : "@id"
+    },
+    "JSON-LD" : {
+      "@id" : "http://www.w3c.org/wot/td#JSON-LD"
+    },
+    "priority" : {
+      "@id" : "http://www.w3c.org/wot/td#priority",
+      "@type" : "http://www.w3.org/2001/XMLSchema#integer"
+    },
+    "NumberOfOccurences" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#NumberOfOccurences"
+    },
+    "associatedUri" : {
+      "@id" : "http://www.w3c.org/wot/td#associatedUri",
+      "@type" : "http://www.w3.org/2001/XMLSchema#anyURI"
+    },
+    "DurationDescription" : {
+      "@id" : "http://www.w3.org/2006/time#DurationDescription"
+    },
+    "Multiply" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#Multiply"
+    },
+    "Thing" : {
+      "@id" : "http://www.w3.org/2002/07/owl#Thing"
+    },
+    "AggrOperator" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#AggrOperator"
+    },
+    "hasEventOperator" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasEventOperator",
+      "@type" : "@id"
+    },
+    "WebSocket" : {
+      "@id" : "http://www.w3c.org/wot/td#WebSocket"
+    },
+    "hasOutput" : {
+      "@id" : "http://www.w3c.org/wot/td#hasOutput",
+      "@type" : "@id"
+    },
+    "RedopParam" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#RedopParam"
+    },
+    "hasEventArguments" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasEventArguments",
+      "@type" : "@id"
+    },
+    "hours" : {
+      "@id" : "http://www.w3.org/2006/time#hours",
+      "@type" : "http://www.w3.org/2001/XMLSchema#decimal"
+    },
+    "GreaterThanOrEqualTo" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#GreaterThanOrEqualTo"
+    },
+    "Instant" : {
+      "@id" : "http://www.w3.org/2006/time#Instant"
+    },
+    "Subtract" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#Subtract"
+    },
+    "sum" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#sum"
+    },
+    "LessThan" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#LessThan"
+    },
+    "sampleTimeInterval" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#sampleTimeInterval"
+    },
+    "hasRightWhereConditionArgument" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasRightWhereConditionArgument",
+      "@type" : "@id"
+    },
+    "label" : {
+      "@id" : "http://www.w3.org/2000/01/rdf-schema#label"
+    },
+    "hasMetadata" : {
+      "@id" : "http://www.w3c.org/wot/td#hasMetadata",
+      "@type" : "@id"
+    },
+    "hasRightEventOperand" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasRightEventOperand",
+      "@type" : "@id"
+    },
+    "RelativeOperator" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#RelativeOperator"
+    },
+    "hasMiddleEventOperand" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasMiddleEventOperand",
+      "@type" : "@id"
+    },
+    "OneOrMore" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#OneOrMore"
+    },
+    "months" : {
+      "@id" : "http://www.w3.org/2006/time#months",
+      "@type" : "http://www.w3.org/2001/XMLSchema#decimal"
+    },
+    "hasLeftEventOperand" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasLeftEventOperand",
+      "@type" : "@id"
+    },
+    "Count" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#Count"
+    },
+    "max" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#max"
+    },
+    "SEQ" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#SEQ"
+    },
+    "encoding" : {
+      "@id" : "http://www.w3c.org/wot/td#encoding",
+      "@type" : "@id"
+    },
+    "hasRange" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasRange",
+      "@type" : "@id"
+    },
+    "Event" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#Event"
+    },
+    "LessThanOrEqualTo" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#LessThanOrEqualTo"
+    },
+    "RedopNoParam" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#RedopNoParam"
+    },
+    "hasReductOperation" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasReductOperation",
+      "@type" : "@id"
+    },
+    "count" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#count"
+    },
+    "Interval" : {
+      "@id" : "http://www.w3.org/2006/time#Interval"
+    },
+    "XML" : {
+      "@id" : "http://www.w3c.org/wot/td/tutorial#XML"
+    },
+    "hasResultVariable" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasResultVariable",
+      "@type" : "@id"
+    },
+    "hasType" : {
+      "@id" : "http://www.w3c.org/wot/td#hasType"
+    },
+    "Range" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#Range"
+    },
+    "Pattern" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#Pattern"
+    },
+    "creator" : {
+      "@id" : "http://www.w3c.org/wot/td#creator"
+    },
+    "name" : {
+      "@id" : "http://www.w3c.org/wot/td#name",
+      "@type" : "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "SubPattern" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#SubPattern",
+	  "@container": "@set"
+    },
+    "EqualTo" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#EqualTo"
+    },
+    "hasInput" : {
+      "@id" : "http://www.w3c.org/wot/td#hasInput",
+      "@type" : "@id"
+    },
+    "AND" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#AND"
+    },
+    "GreaterThan" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#GreaterThan"
+    },
+    "Add" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#Add"
+    },
+    "ReductOperation" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#ReductOperation"
+    },
+    "DefiniteClause" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#DefiniteClause"
+    },
+    "RuleBody" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#RuleBody"
+    },
+    "minutes" : {
+      "@id" : "http://www.w3.org/2006/time#minutes",
+      "@type" : "http://www.w3.org/2001/XMLSchema#decimal"
+    },
+    "ArithmaticOperator" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#ArithmaticOperator"
+    },
+    "Argument" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#Argument"
+    },
+    "ZeroOrMore" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#ZeroOrMore"
+    },
+    "identifier" : {
+      "@id" : "http://www.w3c.org/wot/td#identifier"
+    },
+    "EXI" : {
+      "@id" : "http://www.w3c.org/wot/td#EXI"
+    },
+    "seconds" : {
+      "@id" : "http://www.w3.org/2006/time#seconds",
+      "@type" : "http://www.w3.org/2001/XMLSchema#decimal"
+    },
+    "hasStartTimePoint" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasStartTimePoint",
+      "@type" : "@id"
+    },
+    "ruleId" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#ruleId",
+      "@type" : "http://www.w3.org/2001/XMLSchema#anyURI",
+	  "@container": "@set"
+    },
+    "hasTimeStamp" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasTimeStamp",
+      "@type" : "@id"
+    },
+    "stability" : {
+      "@id" : "http://www.w3c.org/wot/td#stability",
+      "@type" : "http://www.w3.org/2001/XMLSchema#decimal"
+    },
+    "JSON" : {
+      "@id" : "http://www.w3c.org/wot/td#JSON"
+    },
+    "hasTimeInterval" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasTimeInterval",
+      "@type" : "@id"
+    },
+    "_" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#_"
+    },
+    "hasLeftWhereConditionArgument" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasLeftWhereConditionArgument",
+      "@type" : "@id"
+    },
+    "years" : {
+      "@id" : "http://www.w3.org/2006/time#years",
+      "@type" : "http://www.w3.org/2001/XMLSchema#decimal"
+    },
+    "isDefinedBy" : {
+      "@id" : "http://www.w3.org/2000/01/rdf-schema#isDefinedBy"
+    },
+    "NotEqualTo" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#NotEqualTo"
+    },
+    "PatternMiddleOperand" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#PatternMiddleOperand"
+    },
+    "writeable" : {
+      "@id" : "http://www.w3c.org/wot/td#writeable",
+      "@type" : "http://www.w3.org/2001/XMLSchema#boolean"
+    },
+    "hasInteraction" : {
+      "@id" : "http://www.w3c.org/wot/td#hasInteraction",
+      "@type" : "@id"
+    },
+    "hasWhereConditionOperator" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasWhereConditionOperator",
+      "@type" : "@id"
+    },
+    "Property" : {
+      "@id" : "http://www.w3c.org/wot/td#Property"
+    },
+    "td:Event" : {
+      "@id" : "http://www.w3c.org/wot/td#Event"
+    },	
+    "Rule" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#Rule"
+    },
+    "hasRuleHead" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasRuleHead",
+      "@type" : "@id"
+    },
+    "title" : {
+      "@id" : "http://www.w3c.org/wot/td#title"
+    },
+    "avg" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#avg"
+    },
+    "Data" : {
+      "@id" : "http://www.w3c.org/wot/td#Data"
+    },
+    "days" : {
+      "@id" : "http://www.w3.org/2006/time#days",
+      "@type" : "http://www.w3.org/2001/XMLSchema#decimal"
+    },
+    "hasRuleBody" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasRuleBody",
+      "@type" : "@id"
+    },
+    "WhereClause" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#WhereClause"
+    },
+    "List" : {
+      "@id" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"
+    },
+    "ConditionExpression" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#ConditionExpression"
+    },
+    "modified" : {
+      "@id" : "http://www.w3c.org/wot/td#modified"
+    },
+    "ThingDescription" : {
+      "@id" : "http://www.w3c.org/wot/td#ThingDescription"
+    },
+    "hasCount" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasCount",
+      "@type" : "http://www.w3.org/2001/XMLSchema#integer"
+    },
+    "Divide" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#Divide"
+    },
+    "hasEventOperand" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasEventOperand",
+      "@type" : "@id"
+    },
+    "hasParameters" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasParameters",
+      "@type" : "@id"
+    },
+    "Variable" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#Variable"
+    },
+    "Metadata" : {
+      "@id" : "http://www.w3c.org/wot/td#Metadata"
+    },
+    "hasWhereConditions" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasWhereConditions",
+      "@type" : "@id"
+    },
+    "HTTP" : {
+      "@id" : "http://www.w3c.org/wot/td#HTTP"
+    },
+    "EventOperator" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#EventOperator"
+    },
+    "OR" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#OR"
+    },
+    "Condition" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#Condition"
+    },
+    "weeks" : {
+      "@id" : "http://www.w3.org/2006/time#weeks",
+      "@type" : "http://www.w3.org/2001/XMLSchema#decimal"
+    },
+    "KSEQ" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#KSEQ"
+    },
+    "cardinality" : {
+      "@id" : "http://www.w3.org/2002/07/owl#cardinality"
+    },
+    "comment" : {
+      "@id" : "http://www.w3.org/2000/01/rdf-schema#comment"
+    },
+    "ruleInstId" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#ruleInstId",
+      "@type" : "http://www.w3.org/2001/XMLSchema#anyURI",
+	  "@container": "@set"
+    },
+    "hasPattern" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasPattern",
+      "@type" : "@id"
+    },
+    "Action" : {
+      "@id" : "http://www.w3c.org/wot/td#Action"
+    },
+    "XMPP" : {
+      "@id" : "http://www.w3c.org/wot/td#XMPP"
+    },
+    "NSEQ" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#NSEQ"
+    },
+    "TimeStamp" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#TimeStamp"
+    },
+    "hasSubPattern" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasSubPattern",
+      "@type" : "@id"
+    },
+    "CoAP" : {
+      "@id" : "http://www.w3c.org/wot/td#CoAP"
+    },
+    "hasEndTimePoint" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#hasEndTimePoint",
+      "@type" : "@id"
+    },
+    "NumberOfEventOccurences" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#NumberOfEventOccurences",
+      "@type" : "@id"
+    },
+    "Seconds" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#10Seconds"
+    },
+    "RuleHead" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#RuleHead"
+    },
+    "ConditionsList" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#ConditionsList",
+	  "@container": "@set"
+    },
+    "functionName" : {
+      "@id" : "http://www.semanticweb.org/z003j0hn/ontologies/2016/6/Appvocabulary/Appvocabulary#functionName",
+	  "@type" : "@id"
+    }	
+  }
+}
