@@ -1,4 +1,4 @@
-package de.thingweb.repository;
+package de.thingweb.repository.recipe;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -20,6 +20,8 @@ import org.apache.jena.vocabulary.DC;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.RDFS;
 
+import de.thingweb.repository.ThingDescriptionUtils;
+import de.thingweb.repository.Repository;
 import de.thingweb.repository.rest.BadRequestException;
 import de.thingweb.repository.rest.NotFoundException;
 import de.thingweb.repository.rest.RESTException;
@@ -27,14 +29,14 @@ import de.thingweb.repository.rest.RESTHandler;
 import de.thingweb.repository.rest.RESTResource;
 import de.thingweb.repository.rest.RESTServerInstance;
 
-public class ThingDescriptionCollectionHandler extends RESTHandler {
+public class RecipeCollectionHandler extends RESTHandler {
 
 	// for Resource Directory
 	public static final String LIFE_TIME = "lt";
 	public static final String END_POINT = "ep";
 	
-	public ThingDescriptionCollectionHandler(List<RESTServerInstance> instances) {
-		super("td", instances);
+	public RecipeCollectionHandler(List<RESTServerInstance> instances) {
+		super("recipes", instances);
 	}
 	
 	@Override
@@ -44,7 +46,7 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 		resource.contentType = "application/ld+json";
 		resource.content = "{";
 		
-		List<String> tds = new ArrayList<String>();
+		List<String> recipes = new ArrayList<String>();
 		String query;
 		
 		// Normal SPARQL query
@@ -52,61 +54,58 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 			
 			query = parameters.get("query");
 			try {
-				tds = ThingDescriptionUtils.listThingDescriptions(query);
+				recipes = ThingDescriptionUtils.listRecipes(query);
 			} catch (Exception e) {
 				throw new BadRequestException();
 			}
 			
-		} else if (parameters.containsKey("text") && !parameters.get("text").isEmpty()) { // Full text search query
+		} 
+		/*else if (parameters.containsKey("text") && !parameters.get("text").isEmpty()) { // Full text search query
 			
 			query = parameters.get("text");
 			try {
-				tds = ThingDescriptionUtils.listThingDescriptionsFromTextSearch(query);
+				recipes = ThingDescriptionUtils.listThingDescriptionsFromTextSearch(query);
 			} catch (Exception e) {
 				throw new BadRequestException();
 			}
 			
-		} else if (parameters.containsKey("rdf") && !parameters.get("rdf").isEmpty()) { // RDF type/value type query
+		} 
+		else if (parameters.containsKey("rdf") && !parameters.get("rdf").isEmpty()) { // RDF type/value type query
 			
 			query = parameters.get("rdf");
+			String tdDesc = null;
 			try {
-				tds = ThingDescriptionUtils.listRDFTypeValues(query);
+				
+				tdDesc = ThingDescriptionUtils.listRDFTypeValues(query);
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new BadRequestException();
 			}
 			
-			// Retrieve type values
-			for (int i = 0; i < tds.size(); i++) {
-				resource.content += "\"unit\": " + tds.get(i);
-				if (i < tds.size() - 1) {
-					resource.content += ",\n";
-				}
-			}
+				resource.content += "\"Interaction\": " + tdDesc;
+		return resource;
 			
-			resource.content += "}";
-			return resource;
-			
-		} else {
+		}*/
+		else {
 			// Return all TDs
 			try {
-				tds = ThingDescriptionUtils.listThingDescriptions("?s ?p ?o");
+				recipes = ThingDescriptionUtils.listRecipes("?s ?p ?o");
 			} catch (Exception e) {
 				throw new BadRequestException();
 			}
 		}
 		
 		// Retrieve Thing Description(s)
-		for (int i = 0; i < tds.size(); i++) {
-			URI td = URI.create(tds.get(i));
+		for (int i = 0; i < recipes.size(); i++) {
+			URI td = URI.create(recipes.get(i));
 			
 			try {
-				ThingDescriptionHandler h = new ThingDescriptionHandler(td.toString(), instances);
+				RecipeHandler h = new RecipeHandler(td.toString(), instances);
 				RESTResource res = h.get(td, new HashMap<String, String>());
 				// TODO check TD's content type
 				
 				resource.content += "\"" + td.getPath() + "\": " + res.content;
-				if (i < tds.size() - 1) {
+				if (i < recipes.size() - 1) {
 					resource.content += ",";
 				}
 				
@@ -119,7 +118,7 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 				
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.err.println("Unable to retrieve Thing Description " + td.getPath());
+				System.err.println("Unable to retrieve Recipe " + td.getPath());
 			}
 		}
 		
@@ -129,20 +128,7 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 
 	@Override
 	public RESTResource post(URI uri, Map<String, String> parameters, InputStream payload) throws RESTException {
-		
-		String data = "";
-		try {
-			data = ThingDescriptionUtils.streamToString(payload);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			throw new BadRequestException();
-		}
-		
-		// Check if new TD has uris already registered in the dataset
-		if (ThingDescriptionUtils.hasInvalidURI(data)) {
-			throw new BadRequestException();
-		}
-		
+
 		// to register a resource following the standard
 		String endpointName = "http://example.org/"; // this is temporary
 		String lifeTime = "86400"; // 24 hours by default in seconds
@@ -165,7 +151,8 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 
 		dataset.begin(ReadWrite.WRITE);
 		try {
-			
+			String data = ThingDescriptionUtils.streamToString(payload);
+		  
 			Model tdb = dataset.getNamedModel(resourceUri.toString());
 			tdb.read(new ByteArrayInputStream(data.getBytes()), endpointName, "JSON-LD");
 			// TODO check TD validity
@@ -189,18 +176,21 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 			tdb.getResource(resourceUri.toString()).addProperty(DCTerms.modified, currentDate);
 			tdb.getResource(resourceUri.toString()).addProperty(DCTerms.dateAccepted, lifetimeDate);
 	  
-			addToAll("/td/" + id, new ThingDescriptionHandler(id, instances));
+			addToAll("/recipe/" + id, new RecipeHandler(id, instances));
 			dataset.commit();
 			
 			// Add to priority queue
-			ThingDescription td = new ThingDescription(resourceUri.toString(), lifetimeDate);
-			Repository.get().tdQueue.add(td);
-			Repository.get().setTimer();
-			
+//			ThingDescription td = new ThingDescription(resourceUri.toString(), lifetimeDate);
+//			Repository.get().tdQueue.add(td);
+//			Repository.get().setTimer();
+//			
 			// TODO remove useless return
-			RESTResource resource = new RESTResource("/td/" + id, new ThingDescriptionHandler(id, instances));
+			RESTResource resource = new RESTResource("/recipe/" + id, new RecipeHandler(id, instances));
 			return resource;
 
+		} catch (IOException e) {
+			e.printStackTrace();
+		  throw new BadRequestException();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RESTException();
@@ -208,15 +198,7 @@ public class ThingDescriptionCollectionHandler extends RESTHandler {
 			dataset.end();
 		}
 	}
-	
-	
-	@Override
-	public RESTResource observe(URI uri, Map<String, String> parameters) throws RESTException {
-		
-		return get(uri, null);
-	}
 
-	
 	private String normalize(URI uri) {
 		if (!uri.getScheme().equals("http")) {
 			return uri.toString().replace(uri.getScheme(), "http");

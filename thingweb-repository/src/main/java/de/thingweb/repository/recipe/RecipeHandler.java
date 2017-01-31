@@ -1,4 +1,4 @@
-package de.thingweb.repository;
+package de.thingweb.repository.recipe;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -19,19 +19,20 @@ import org.apache.jena.vocabulary.DC;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.RDFS;
 
+import de.thingweb.repository.Repository;
+import de.thingweb.repository.ThingDescriptionUtils;
 import de.thingweb.repository.rest.BadRequestException;
-import de.thingweb.repository.rest.NotFoundException;
 import de.thingweb.repository.rest.RESTException;
 import de.thingweb.repository.rest.RESTHandler;
 import de.thingweb.repository.rest.RESTResource;
 import de.thingweb.repository.rest.RESTServerInstance;
 
-public class ThingDescriptionHandler extends RESTHandler {
+public class RecipeHandler extends RESTHandler {
 
 	// for Resource Directory
 	public static final String LIFE_TIME = "lt";
 	
-	public ThingDescriptionHandler(String id, List<RESTServerInstance> instances) {
+	public RecipeHandler(String id, List<RESTServerInstance> instances) {
 		super(id, instances);
 	}
 	
@@ -62,24 +63,11 @@ public class ThingDescriptionHandler extends RESTHandler {
 	
 	@Override
 	public void put(URI uri, Map<String, String> parameters, InputStream payload) throws RESTException {
-		
-		String data = "";
-		try {
-			data = ThingDescriptionUtils.streamToString(payload);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			throw new BadRequestException();
-		}
-		
-		// Check if new TD has uris already registered in the dataset
-		if (ThingDescriptionUtils.hasInvalidURI(data, uri.toString())) {
-			throw new BadRequestException();
-		}
-		
 		Dataset dataset = Repository.get().dataset;
 		dataset.begin(ReadWrite.WRITE);
 		
 		try {
+			String data = ThingDescriptionUtils.streamToString(payload);
 			Model td = ModelFactory.createDefaultModel();
 			Model tdb = dataset.getDefaultModel();
 			String created, modified, lifetime, lt, endpointName;
@@ -135,10 +123,10 @@ public class ThingDescriptionHandler extends RESTHandler {
 			}
 			
 			// Update priority queue
-			ThingDescription t = new ThingDescription(uri.toString(), lifetime);
-			Repository.get().tdQueue.remove(t);
-			Repository.get().tdQueue.add(t);
-			Repository.get().setTimer();
+//			ThingDescription t = new ThingDescription(uri.toString(), lifetime);
+//			Repository.get().tdQueue.remove(t);
+//			Repository.get().tdQueue.add(t);
+//			Repository.get().setTimer();
 			
 			dataset.commit();
 			
@@ -165,9 +153,9 @@ public class ThingDescriptionHandler extends RESTHandler {
 			dataset.commit();
 			
 			// Remove from priority queue
-			ThingDescription td = new ThingDescription(uri.toString());
-			Repository.get().tdQueue.remove(td);
-			Repository.get().setTimer();
+//			ThingDescription td = new ThingDescription(uri.toString());
+//			Repository.get().tdQueue.remove(td);
+//			Repository.get().setTimer();
 						
 		} catch (Exception e) {
 			// TODO distinguish between client and server errors
